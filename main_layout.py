@@ -285,7 +285,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.image_1_container.setTitle(_translate("MainWindow", "Image 1"))
-        self.image_1_pick.setItemText(0, _translate("MainWindow", "Mag-Phase-Real-Imag"))
         self.image_1_pick.setItemText(1, _translate("MainWindow", "Magnitude"))
         self.image_1_pick.setItemText(2, _translate("MainWindow", "Phase"))
         self.image_1_pick.setItemText(3, _translate("MainWindow", "Real"))
@@ -313,7 +312,6 @@ class Ui_MainWindow(object):
         self.component_2_type.setItemText(5, _translate("MainWindow", "Uniform Magnitude"))
         self.component_2_type.setItemText(6, _translate("MainWindow", "Uniform Phase"))
         self.image_1_container_2.setTitle(_translate("MainWindow", "Image 2"))
-        self.image_2_pick.setItemText(0, _translate("MainWindow", "Mag-Phase-Real-Imag"))
         self.image_2_pick.setItemText(1, _translate("MainWindow", "Magnitude"))
         self.image_2_pick.setItemText(2, _translate("MainWindow", "Phase"))
         self.image_2_pick.setItemText(3, _translate("MainWindow", "Real"))
@@ -324,9 +322,13 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuOpen.setTitle(_translate("MainWindow", "Open"))
         self.action_new.setText(_translate("MainWindow", "New"))
+        self.action_new.setShortcut(_translate("MainWindow", "Ctrl+N"))
         self.action_open_image_1.setText(_translate("MainWindow", "Image 1"))
+        self.action_open_image_1.setShortcut(_translate("MainWindow", "1"))
         self.action_open_image_2.setText(_translate("MainWindow", "Image 2"))
+        self.action_open_image_2.setShortcut(_translate("MainWindow", "2"))
         self.action_exit.setText(_translate("MainWindow", "Exit"))
+        self.action_exit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
 
 if __name__ == "__main__":
