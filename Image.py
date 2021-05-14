@@ -2,6 +2,18 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
 import matplotlib.pyplot as plt
 import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(asctime)s - %(message)s')
+
+file_handler = logging.FileHandler('log.log')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
 
 class Image:
     def __init__(self):

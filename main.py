@@ -3,6 +3,18 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtCore as qtc
 from Image import Image
 from main_layout import Ui_MainWindow
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(asctime)s - %(message)s')
+
+file_handler = logging.FileHandler('log.log')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
 
 class MainWindow(qtw.QMainWindow):
     def __init__(self):
