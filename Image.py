@@ -33,4 +33,29 @@ class Image:
         return self.WIDTH == image2.WIDTH and self.HEIGHT == image2.HEIGHT
 
     def mix(self, image_2: 'Image', type_1: str, type_2: str, component_1_ratio: float, component_2_ratio: float, mode: str) -> qtg.QPixmap:
-        pass
+        first = self.get_component(type_1, component_1_ratio)
+        second = image_2.get_component(type_2, component_2_ratio)
+
+        if mode == 'mag-phase':
+            construct = np.real(np.fft.ifft2(np.multiply(first, second)))
+        if mode == 'real-imag':
+            construct = np.real(np.fft.ifft2(first + second))
+
+        if np.max(construct) > 1.0:
+            construct /= np.max(construct)
+        plt.imsave('test.png', np.abs(construct))
+        return qtg.QPixmap('test.png')
+
+    def get_component(self, type: str, ratio: float) -> np.ndarray:
+        if type == "Magnitude":
+            return self.components[type] * ratio
+        elif type == "Phase":
+            return np.exp(1j * self.components[type] * ratio)
+        elif type == "Real":
+            return self.components[type] * ratio
+        elif type == "Imaginary":
+            return 1j* self.components[type] * ratio
+        elif type =="Uniform Magnitude" :
+            return np.ones(shape=self.shape) * ratio
+        elif type == "Uniform Phase":
+            return np.exp(1j * np.zeros(shape=self.shape) * ratio)
