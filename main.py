@@ -84,6 +84,9 @@ class MainWindow(qtw.QMainWindow):
         self.ui.action_open_image_1.triggered.connect(lambda: self.open_image(self.images['1'], 1))
         self.ui.action_open_image_2.triggered.connect(lambda: self.open_image(self.images['2'], 2))
 
+        self.ui.image_1_pick.currentIndexChanged.connect(lambda: self.display_component(self.img['Image 1']))
+        self.ui.image_2_pick.currentIndexChanged.connect(lambda: self.display_component(self.img['Image 2']))
+
         self.ui.output_select.currentIndexChanged.connect(lambda: self.pick_mixer_output())
 
         self.ui.component_1_select.currentIndexChanged.connect(lambda: self.change_image('select1', self.ui.component_1_select.currentText()))
