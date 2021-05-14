@@ -29,6 +29,9 @@ class Image:
                 'Imaginary': self.imaginary,
             }
 
+    def get_pixmap(self):
+        return self.pixmap
+
     def compare(self, image2: 'Image') -> bool:
         return self.WIDTH == image2.WIDTH and self.HEIGHT == image2.HEIGHT
 
