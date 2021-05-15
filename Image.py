@@ -75,21 +75,19 @@ class Image:
         elif type == "Uniform Phase":
             return np.exp(1j * np.zeros(shape=self.shape) * ratio)
 
-    
-
-    def get_component_pixmap(self, component: str, copy=None) -> qtg.QPixmap:
+    def get_component_pixmap(self, component: str) -> qtg.QPixmap:
         # component_val = np.dot(self.components[component][...,:3], [0.2989, 0.5870, 0.1140])
         if component != '':
             component_val = np.dot(self.components[component][...,:3], [0.2125, 0.7154, 0.0721])
 
-        if component == 'Magnitude' or component == 'Real':
-            plt.imsave('test.png',np.log(np.abs((component_val))),cmap='gray')
+        if component in ['Magnitude', 'Real']:
+            plt.imsave('test.png',np.log(np.abs((component_val))), cmap='gray')
         elif component == 'Phase' :
-            plt.imsave('test.png',(np.abs((component_val))),cmap='gray')
+            plt.imsave('test.png',(np.abs((component_val))), cmap='gray')
         elif component=='Imaginary':
             component_tmp  = np.where(component_val > 1.0e-10, component_val, 1.0e-10)
             result = np.where(component_val > 1.0e-10, np.log10(component_tmp), -10)
-            plt.imsave('test.png',(np.abs(result)),cmap='gray')
+            plt.imsave('test.png',(np.abs(result)), cmap='gray')
         else :
             return qtg.QPixmap("./assets/placeholder.png")
         return qtg.QPixmap('test.png')

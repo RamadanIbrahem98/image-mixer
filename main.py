@@ -4,6 +4,7 @@ import PyQt5.QtCore as qtc
 from Image import Image
 from main_layout import Ui_MainWindow
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -143,6 +144,10 @@ class MainWindow(qtw.QMainWindow):
     def display_component(self, imageWidget: dict) -> None:
         component = imageWidget['widgets']['picker'].currentText()
         imageWidget['widgets']['filtered'].setPixmap(imageWidget['image'].get_component_pixmap(component).scaled(300,300, aspectRatioMode=qtc.Qt.KeepAspectRatio, transformMode=qtc.Qt.SmoothTransformation))
+        try:
+            os.remove('test.png')
+        except:
+            pass
 
     def pick_mixer_output(self) -> None:
         self.current_output_channel = self.ui.output_select.currentText()
@@ -207,6 +212,11 @@ class MainWindow(qtw.QMainWindow):
             self.outImage = self.img[image_1]['image'].mix(self.img[image_2]['image'], self.output_channels_controlers[self.current_output_channel]['type1'], self.output_channels_controlers[self.current_output_channel]['type2'], channel_1_ratio, channel_2_ratio, self.modes[self.current_output_channel])
 
             self.output_channels[self.current_output_channel].setPixmap(self.outImage.scaled(300,300, aspectRatioMode=qtc.Qt.KeepAspectRatio, transformMode=qtc.Qt.SmoothTransformation))
+        except:
+            pass
+
+        try:
+            os.remove('test.png')
         except:
             pass
 
