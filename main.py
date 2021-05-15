@@ -93,6 +93,17 @@ class MainWindow(qtw.QMainWindow):
             '': ''
         }
 
+        self.enables = {
+            '': [self.ui.component_1_select, self.ui.component_2_select, self.ui.component_1_percentage, 
+                    self.ui.component_1_slider, self.ui.component_1_type, 
+                    self.ui.component_2_percentage, self.ui.component_2_slider, self.ui.component_2_type],
+            'output-select': [self.ui.component_1_select, self.ui.component_2_select],
+            'select1': [self.ui.component_1_percentage, self.ui.component_1_type],
+            'select2': [self.ui.component_2_percentage, self.ui.component_2_type],
+            'type1': [self.ui.component_1_slider],
+            'type2': [self.ui.component_2_slider]
+        }
+
         self.current_output_channel = None
 
         self.ui.action_new.triggered.connect(self.new_instance)
@@ -106,14 +117,15 @@ class MainWindow(qtw.QMainWindow):
 
         self.ui.output_select.currentIndexChanged.connect(lambda: self.pick_mixer_output())
 
-        self.ui.component_1_select.currentIndexChanged.connect(lambda: self.change_image('select1', self.ui.component_1_select.currentText()))
-        self.ui.component_2_select.currentIndexChanged.connect(lambda: self.change_image('select2', self.ui.component_2_select.currentText()))
+        self.ui.component_1_select.currentIndexChanged.connect(lambda: self.select_enable('select1', self.ui.component_1_select.currentText()))
+        self.ui.component_2_select.currentIndexChanged.connect(lambda: self.select_enable('select2', self.ui.component_2_select.currentText()))
         self.ui.component_1_slider.sliderReleased.connect(lambda: self.mixer('slider1', str(self.ui.component_1_slider.value())))
         self.ui.component_2_slider.sliderReleased.connect(lambda: self.mixer('slider2', str(self.ui.component_2_slider.value())))
         self.ui.component_1_percentage.valueChanged.connect(lambda: self.change_image('percentage1', str(self.ui.component_1_percentage.value())))
         self.ui.component_2_percentage.valueChanged.connect(lambda: self.change_image('percentage2', str(self.ui.component_2_percentage.value())))
         self.ui.component_1_type.currentIndexChanged.connect(lambda: self.component_1_conplementary())
-        self.ui.component_2_type.currentIndexChanged.connect(lambda: self.change_image('type2', str(self.ui.component_2_type.currentText())))
+        self.ui.component_1_type.currentIndexChanged.connect(lambda: self.select_enable('type1', str(self.ui.component_1_type.currentText())))
+        self.ui.component_2_type.currentIndexChanged.connect(lambda: self.select_enable('type2', str(self.ui.component_2_type.currentText())))
         
     def new_instance(self) -> None:
         self.child_window = MainWindow()
@@ -188,19 +200,20 @@ class MainWindow(qtw.QMainWindow):
         self.ui.component_2_select.setCurrentText(self.output_channels_controlers[self.ui.output_select.currentText()]['select2'])
         self.ui.component_2_type.setCurrentText(self.output_channels_controlers[self.ui.output_select.currentText()]['type2'])
         if self.ui.output_select.currentText() != '':
-            self.set_mixer_components_disabled(False)
+            self.set_mixer_components_disabled(self.enables['output-select'] ,False)
         else:
-            self.set_mixer_components_disabled(True)
+            self.set_mixer_components_disabled(self.enables['output-select'], True)
 
-    def set_mixer_components_disabled(self, logic: bool) -> None:
-        self.ui.component_1_select.setDisabled(logic)
-        self.ui.component_1_percentage.setDisabled(logic)
-        self.ui.component_1_slider.setDisabled(logic)
-        self.ui.component_1_type.setDisabled(logic)
-        self.ui.component_2_select.setDisabled(logic)
-        self.ui.component_2_percentage.setDisabled(logic)
-        self.ui.component_2_slider.setDisabled(logic)
-        self.ui.component_2_type.setDisabled(logic)
+    def set_mixer_components_disabled(self, components: list, logic: bool) -> None:
+        for component in components:
+            component.setDisabled(logic)
+
+    def select_enable(self, component: str, value: str):
+        self.change_image(component, value)
+        if value != '':
+            self.set_mixer_components_disabled(self.enables[component], False)
+        else:    
+            self.set_mixer_components_disabled(self.enables[component], True)
 
     def change_image(self, component: str, value: str) -> None:
         self.output_channels_controlers[self.current_output_channel][component] = value
