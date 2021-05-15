@@ -119,10 +119,13 @@ class MainWindow(qtw.QMainWindow):
         if not image.path:
             return
         if len(self.img) == 1:
-            if not image.compare(self.img[f'Image {2//channel}']['image']):
-                qtw.QMessageBox.warning(self, 'failed', 'The Two Images Must be of the same size')
-                return
-            else : 
+            if f'Image {2//channel}' in self.img:
+                if not image.compare(self.img[f'Image {2//channel}']['image']):
+                    qtw.QMessageBox.warning(self, 'failed', 'The Two Images Must be of the same size')
+                    return
+                else :
+                    self.img[f'Image {channel}'] = {'image': image, 'widgets': imageWidget}
+            else :
                 self.img[f'Image {channel}'] = {'image': image, 'widgets': imageWidget}
 
         elif len(self.img) >= 2:
