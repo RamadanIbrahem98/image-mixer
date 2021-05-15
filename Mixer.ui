@@ -184,19 +184,15 @@
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>116</width>
+               <height>30</height>
+              </size>
+             </property>
              <item>
               <property name="text">
                <string/>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Image 1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Image 2</string>
               </property>
              </item>
             </widget>
@@ -290,19 +286,15 @@
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>116</width>
+               <height>30</height>
+              </size>
+             </property>
              <item>
               <property name="text">
                <string/>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Image 1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Image 2</string>
               </property>
              </item>
             </widget>

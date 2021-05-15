@@ -89,6 +89,10 @@ class MainWindow(qtw.QMainWindow):
             'Uniform Phase': ['Magnitude', 'Uniform Magnitude'],
         }
 
+        self.available_images = {
+            '': ''
+        }
+
         self.current_output_channel = None
 
         self.ui.action_new.triggered.connect(self.new_instance)
@@ -126,20 +130,43 @@ class MainWindow(qtw.QMainWindow):
                     return
                 else :
                     self.img[f'Image {channel}'] = {'image': image, 'widgets': imageWidget}
+                    if f'Image {channel}' not in self.available_images:
+                        self.available_images[f'Image {channel}'] = f'Image {channel}'
+                        self.append_outputs(isOneChanneled=False)
             else :
                 self.img[f'Image {channel}'] = {'image': image, 'widgets': imageWidget}
-
         elif len(self.img) >= 2:
             if not image.compare(self.img[f'Image {2//channel}']['image']):
                 qtw.QMessageBox.warning(self, 'failed', 'The Two Images Must be of the same size')
                 return
             self.img[f'Image {channel}']["image"] = image
             self.img[f'Image {channel}']["widgets"] = imageWidget
-        else :  
+        else :
             self.img[f'Image {channel}'] = {'image': image, 'widgets': imageWidget}
+            if f'Image {channel}' not in self.available_images:
+                self.available_images[f'Image {channel}'] = f'Image {channel}'
+                self.append_outputs(channel=self.available_images[f'Image {channel}'])
         imageWidget['original'].setPixmap(image.get_pixmap().scaled(300,300, aspectRatioMode=qtc.Qt.KeepAspectRatio, transformMode=qtc.Qt.SmoothTransformation))
         imageWidget['picker'].setDisabled(False)
         self.ui.output_select.setDisabled(False)
+
+    def append_outputs(self, isOneChanneled: bool=True, channel: str='') -> None:
+        if isOneChanneled:
+            self.ui.component_1_select.addItem('')
+            self.ui.component_2_select.addItem('')
+            self.ui.component_1_select.setItemText(0, '')
+            self.ui.component_1_select.setItemText(1, channel)
+            self.ui.component_2_select.setItemText(0, '')
+            self.ui.component_2_select.setItemText(1, channel)
+        else:
+            self.ui.component_1_select.addItem('')
+            self.ui.component_2_select.addItem('')
+            self.ui.component_1_select.setItemText(0, '')
+            self.ui.component_1_select.setItemText(1, 'Image 1')
+            self.ui.component_1_select.setItemText(2, 'Image 2')
+            self.ui.component_2_select.setItemText(0, '')
+            self.ui.component_2_select.setItemText(1, 'Image 1')
+            self.ui.component_2_select.setItemText(2, 'Image 2')
 
     def display_component(self, imageWidget: dict) -> None:
         component = imageWidget['widgets']['picker'].currentText()
