@@ -25,7 +25,6 @@ A GUI Application for the Fast Fourier Transform. Mixing the Magnitude and Phase
     -   PyQt5
     -   matplotlib
     -   numpy
-    -   
 
 ## Setting Up the Environment
 
